@@ -89,7 +89,7 @@ func UnpublishNetworkContainer(
 func GetNetworkContainerVersion(
 	networkContainerID,
 	getNetworkContainerVersionURL string) (*http.Response, error) {
-	logger.Printf("[NMAgentClient] GetNetworkContainerVersion NC: %s", networkContainerID)
+	logger.Printf("[NMAgentClient] GetNetworkContainerVersion NC: %s, URL: %s", networkContainerID, getNetworkContainerVersionURL)
 
 	response, err := common.GetHttpClient().Get(getNetworkContainerVersionURL)
 
