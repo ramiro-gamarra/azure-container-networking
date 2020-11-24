@@ -726,6 +726,12 @@ func (service *HTTPRestService) isNCWaitingForUpdate(ncVersion, ncid string) (wa
 		}
 	}
 
+	logger.Printf("[Azure CNS - DEBUG] contents of ncVersionURLs")
+	ncVersionURLs.Range(func(key, value interface{}) bool {
+		logger.Printf("nc: %v, versionURL: %v", key, value)
+		return true
+	})
+
 	getNCVersionURL, ok := ncVersionURLs.Load(ncid)
 	if !ok {
 		logger.Printf("[Azure CNS] getNCVersionURL for Network container %s not found. Skipping GetNCVersionStatus check from NMAgent",

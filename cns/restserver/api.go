@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"regexp"
 	"runtime"
 	"strings"
 
@@ -1196,11 +1197,19 @@ func (service *HTTPRestService) publishNetworkContainer(w http.ResponseWriter, r
 			}
 		}
 
+		// http://127.0.0.1:9001/joinedVirtualNetworks/c9b8e695-2de1-11eb-bf54-000d3af666c8/api-version/1",
+		wireserverIP := nmagentclient.WireserverIP // default if can't extract from request
+		rgx := regexp.MustCompile("^http[s]?://(.*?)/joinedVirtualNetworks.*?$")
+		submatches := rgx.FindStringSubmatch(req.CreateNetworkContainerURL)
+		if len(submatches) == 2 {
+			wireserverIP = submatches[1]
+		}
+
 		// Store ncGetVersionURL needed for calling NMAgent to check if vfp programming is completed for the NC
 		primaryInterfaceIdentifier := getInterfaceIdFromCreateNetworkContainerURL(req.CreateNetworkContainerURL)
 		authToken := getAuthTokenFromCreateNetworkContainerURL(req.CreateNetworkContainerURL)
 		ncGetVersionURL := fmt.Sprintf(nmagentclient.GetNetworkContainerVersionURLFmt,
-			nmagentclient.WireserverIP,
+			wireserverIP,
 			primaryInterfaceIdentifier,
 			req.NetworkContainerID,
 			authToken)
