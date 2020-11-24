@@ -94,7 +94,7 @@ func (service *HTTPRestService) SyncNodeStatus(dncEP, infraVnet, nodeID string, 
 	for ncid, nc := range ncsToBeAdded {
 		var (
 			versionURL = fmt.Sprintf(nmagentclient.GetNetworkContainerVersionURLFmt,
-				nmagentclient.WireserverIP,
+				nmagentclient.WireserverIP, // todo: don't hardcode
 				nc.PrimaryInterfaceIdentifier,
 				nc.NetworkContainerid,
 				nc.AuthorizationToken)

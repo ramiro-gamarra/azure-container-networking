@@ -1200,7 +1200,7 @@ func (service *HTTPRestService) publishNetworkContainer(w http.ResponseWriter, r
 		// http://127.0.0.1:9001/joinedVirtualNetworks/c9b8e695-2de1-11eb-bf54-000d3af666c8/api-version/1",
 		wireserverIP := nmagentclient.WireserverIP // default if can't extract from request
 		rgx := regexp.MustCompile("^http[s]?://(.*?)/joinedVirtualNetworks.*?$")
-		submatches := rgx.FindStringSubmatch(req.CreateNetworkContainerURL)
+		submatches := rgx.FindStringSubmatch(req.JoinNetworkURL)
 		if len(submatches) == 2 {
 			wireserverIP = submatches[1]
 		}
